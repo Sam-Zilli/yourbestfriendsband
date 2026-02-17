@@ -287,11 +287,13 @@ a:hover {
    ========================================================================== */
 
 footer {
-  position: relative; /* Required for z-index to take effect */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: rgba(0, 0, 0, 0.95);
-  padding: 15px 0 25px;
+  padding: 10px 0 15px;
   text-align: center;
-  width: 100%;
   backdrop-filter: blur(5px);
   border-top: 2px solid rgba(200, 160, 100, 0.4);
   z-index: 10;
