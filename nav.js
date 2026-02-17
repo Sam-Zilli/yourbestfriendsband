@@ -11,8 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
   // and underlines only that nav link. Ensures only one is active at a time.
   var sections = document.querySelectorAll('.hero-section[id]');
   var navLinks = document.querySelectorAll('.nav-links a');
+  var isNavigating = false; // True while a nav click scroll is in progress
+  var scrollTimer = null;
 
   function setActiveLink() {
+    if (isNavigating) return; // Skip updates during nav-click scrolling
+
     var scrollCenter = window.scrollY + window.innerHeight / 2;
     var closestId = null;
     var closestDist = Infinity;
@@ -36,6 +40,24 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  // When a nav link is clicked, immediately activate it and pause
+  // scroll-based detection until the scroll animation finishes.
+  navLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      isNavigating = true;
+
+      // Immediately highlight the clicked link
+      navLinks.forEach(function (l) { l.classList.remove('active'); });
+      link.classList.add('active');
+
+      // Re-enable scroll detection after scrolling settles
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function () {
+        isNavigating = false;
+      }, 800);
+    });
+  });
 
   window.addEventListener('scroll', setActiveLink, { passive: true });
   setActiveLink(); // Set initial state on page load
