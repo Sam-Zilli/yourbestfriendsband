@@ -2,16 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <!-- SEO & social sharing -->
     <meta name="description" content="Your Best Friends - Boston-based Indie Americana band. Authentic roots music from Massachusetts.">
     <meta name="keywords" content="Your Best Friends, Indie Americana, Boston band, roots music, Massachusetts">
     <meta property="og:title" content="Your Best Friends - Boston Indie Americana Band">
     <meta property="og:description" content="Boston-based Indie Americana band delivering authentic roots music.">
     <meta property="og:type" content="website">
 
-    <title>Your Best Friends - Boston Indie Americana Band</title>
+    <title>your best friends - boston indie americana band</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preload" as="image" href="assets/amp-final-1.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Courier+Prime&display=swap" rel="stylesheet">
@@ -19,58 +18,82 @@
   </head>
   <body>
 
-    <!-- Fixed navbar — scrolls between sections via anchor links -->
-    <nav class="navbar" aria-label="Main navigation">
+    <nav class="navbar" aria-label="main navigation">
       <div class="nav-container">
         <div class="nav-brand">
-          <!-- Each letter wrapped in <span> for typewriter stagger effect (see style.css) -->
-          <h1 class="typewriter-text"><span>Y</span><span>o</span><span>u</span><span>r</span><span> </span><span>B</span><span>e</span><span>s</span><span>t</span><span> </span><span>F</span><span>r</span><span>i</span><span>e</span><span>n</span><span>d</span><span>s</span></h1>
+          <h1 class="typewriter-text"><span>y</span><span>o</span><span>u</span><span>r</span><span> </span><span>b</span><span>e</span><span>s</span><span>t</span><span> </span><span>f</span><span>r</span><span>i</span><span>e</span><span>n</span><span>d</span><span>s</span></h1>
         </div>
         <ul class="nav-links">
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#music">Music</a></li>
-          <li><a href="#about">About</a></li>
+          <li><a href="#shows">shows</a></li>
+          <li><a href="#contact">contact</a></li>
+          <li><a href="#music">music</a></li>
+          <li><a href="#about">about</a></li>
         </ul>
       </div>
     </nav>
 
-    <!-- Each section is full-viewport with a background photo and scroll-snap -->
     <main>
-      <section id="contact" class="hero-section hero-contact" role="img" aria-label="Band performing on stage">
+      <section id="shows" class="hero-section hero-shows" aria-label="upcoming shows">
+        <div class="bulletin-board">
+          <h2 class="board-title">shows</h2>
+          <p class="shows-empty" hidden>no upcoming shows — check back soon.</p>
+          <div class="shows-list">
+            <article class="show-card show-card-flyer" data-date="2026-08-22">
+              <span class="show-pin" aria-hidden="true"></span>
+              <a class="show-flyer-link" href="https://www.eventbrite.com/e/in-lieu-of-flowers-homefried-valentines-your-best-friends-tickets-1992709918007" target="_blank" rel="noopener noreferrer">
+                <img src="assets/show-flyers/the-jungle-aug-22.jpg" alt="your best friends live at the jungle, somerville ma, saturday august 22 at 4 pm">
+              </a>
+              <div class="show-info">
+                <p class="show-when">saturday, august 22</p>
+                <h3 class="show-venue">the jungle</h3>
+                <p class="show-location">somerville, ma</p>
+                <p class="show-meta">
+                  <time datetime="2026-08-22T16:00">4:00 pm</time>
+                  <span class="show-details">21+ · doors at 3:30 pm · with homefried valentines &amp; in lieu of flowers</span>
+                </p>
+                <a href="https://www.eventbrite.com/e/in-lieu-of-flowers-homefried-valentines-your-best-friends-tickets-1992709918007" class="show-link" target="_blank" rel="noopener noreferrer">tickets</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="hero-section hero-contact" role="img" aria-label="band performing on stage">
         <div class="hero-content">
           <div class="section section-alt">
             <div class="container">
-              <h2>Don't be a stranger.</h2>
+              <h2>don't be a stranger.</h2>
               <div class="social-links">
-                <a href="https://www.instagram.com/yourbestfriendsband/" class="social-link instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
-                <a href="https://www.youtube.com/@yourbestfriendsband" class="social-link youtube" target="_blank" rel="noopener noreferrer">Youtube</a>
+                <a href="https://www.instagram.com/yourbestfriendsband/" class="social-link instagram" target="_blank" rel="noopener noreferrer">instagram</a>
+                <a href="https://www.youtube.com/@yourbestfriendsband" class="social-link youtube" target="_blank" rel="noopener noreferrer">youtube</a>
               </div>
             </div>
           </div>
         </div>
+        <p class="photo-credit">photography by amanda macchia @amandamacchiaphoto</p>
       </section>
 
-      <section id="music" class="hero-section hero-music" role="img" aria-label="Open field at golden hour">
-        <p class="coming-soon">Coming Soon</p>
+      <section id="music" class="hero-section hero-music" role="img" aria-label="open field at golden hour">
+        <p class="coming-soon">coming soon</p>
+        <p class="photo-credit">photography by amanda macchia @amandamacchiaphoto</p>
       </section>
 
-      <section id="about" class="hero-section hero-about" role="img" aria-label="Band portrait outdoors">
+      <section id="about" class="hero-section hero-about" role="img" aria-label="band portrait outdoors">
         <div class="hero-content">
           <div class="section">
             <div class="container">
-              <h2>About</h2>
-              <p>Your Best Friends is a Boston-based indie Americana band that creates earnest music for earnest people — and those aspiring to be</p>
+              <h2>about</h2>
+              <p>your best friends is a boston-based indie americana band that creates earnest music for earnest people — and those aspiring to be</p>
             </div>
           </div>
         </div>
+        <p class="photo-credit">photography by amanda macchia @amandamacchiaphoto</p>
       </section>
     </main>
 
-    <!-- Year is updated dynamically by nav.js -->
     <footer>
       <div class="container">
-        <p>&copy; <span id="current-year">2025</span> Your Best Friends. All rights reserved.</p>
-        <p class="photo-credit">Photography by Amanda Macchia @amandamacchiaphoto</p>
+        <p>&copy; <span id="current-year">2025</span> your best friends. all rights reserved.</p>
       </div>
     </footer>
   </body>
