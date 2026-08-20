@@ -12,17 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
   function setActiveLink() {
     if (isNavigating) return;
 
-    var scrollCenter = window.scrollY + window.innerHeight / 2;
-    var closestId = null;
-    var closestDist = Infinity;
+    var closestId = 'shows';
+    var marker = window.scrollY + Math.min(140, window.innerHeight * 0.28);
 
     sections.forEach(function (section) {
-      var top = section.offsetTop;
-      var middle = top + section.offsetHeight / 2;
-      var dist = Math.abs(scrollCenter - middle);
-
-      if (dist < closestDist) {
-        closestDist = dist;
+      if (section.offsetTop <= marker) {
         closestId = section.getAttribute('id');
       }
     });
