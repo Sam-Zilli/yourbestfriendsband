@@ -24,18 +24,18 @@
         <div class="nav-brand">
           <h1>your best friends</h1>
         </div>
+        <p class="nav-tape" id="nav-tape" data-page="shows">shows</p>
         <ul class="nav-links">
           <li><a href="#shows" class="active">shows</a></li>
           <li><a href="#about">about</a></li>
-          <li><a href="#listen">listen</a></li>
+          <li><a href="#media">media</a></li>
         </ul>
       </div>
     </nav>
 
     <main>
-      <section id="shows" class="hero-section hero-shows">
+      <section id="shows" class="hero-section hero-shows" aria-label="shows">
         <div class="bulletin-board">
-          <h2 class="board-title">shows</h2>
           <p class="shows-empty" hidden>no shows yet — check back soon.</p>
           <div class="shows-carousel">
             <button type="button" class="shows-carousel-btn" data-carousel-prev aria-label="earlier show">&lsaquo;</button>
@@ -44,7 +44,25 @@
             </div>
             <button type="button" class="shows-carousel-btn" data-carousel-next aria-label="later show">&rsaquo;</button>
           </div>
-          <div class="shows-carousel-dots" aria-label="shows timeline"></div>
+          <div class="shows-timeline">
+            <!--
+            <p class="shows-era shows-era-past">
+              <svg class="shows-era-oval" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M5.5 18.2 C6 8.2 22 4.8 50 5.4 C77 6 94.2 8.6 94.8 18 C95.5 27.8 79 31.8 49.5 31.2 C21 30.6 4.8 27.4 5.5 18.2 Z"/>
+              </svg>
+              <span>past</span>
+            </p>
+            -->
+            <div class="shows-carousel-dots" aria-label="shows timeline"></div>
+            <!--
+            <p class="shows-era shows-era-future">
+              <svg class="shows-era-oval" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M6.2 17.6 C7 7.8 24 5.2 51 4.8 C79 4.5 94 9.4 94.6 18.6 C95 28.4 77 32.6 48 32 C20 31.4 5.4 26.8 6.2 17.6 Z"/>
+              </svg>
+              <span>future</span>
+            </p>
+            -->
+          </div>
         </div>
       </section>
 
@@ -64,23 +82,29 @@
         <p class="photo-credit">photography by amanda macchia @amandamacchiaphoto</p>
       </section>
 
-      <section id="listen" class="hero-section hero-listen">
-        <div class="listen-board">
-          <h2 class="board-title">listen</h2>
+      <section id="media" class="hero-section hero-media" aria-label="media">
+        <div class="media-board">
+          <p class="media-links">
+            <a href="https://www.instagram.com/yourbestfriendsband/" class="media-link" target="_blank" rel="noopener noreferrer">instagram · @yourbestfriendsband</a>
+          </p>
           <div class="instagram-feed" id="instagram-feed" hidden>
             <div data-behold-id></div>
           </div>
-          <div class="listen-block" id="listen-videos" hidden>
-            <h3 class="listen-label">watch</h3>
-            <div class="listen-videos-grid"></div>
+          <div class="media-block" id="media-videos">
+            <p class="media-links">
+              <a href="https://www.youtube.com/@yourbestfriendsband" class="media-link" target="_blank" rel="noopener noreferrer">youtube · @yourbestfriendsband</a>
+            </p>
+            <div class="media-videos-carousel" hidden>
+              <button type="button" class="media-videos-btn" data-videos-prev aria-label="earlier video">&lsaquo;</button>
+              <div class="media-videos-viewport">
+                <div class="media-videos-track"></div>
+              </div>
+              <button type="button" class="media-videos-btn" data-videos-next aria-label="later video">&rsaquo;</button>
+            </div>
           </div>
-          <div class="listen-block" id="listen-players" hidden>
-            <h3 class="listen-label">play</h3>
-            <div class="listen-players-list"></div>
-          </div>
-          <div class="social-links listen-links">
-            <a href="https://www.instagram.com/yourbestfriendsband/" class="social-link instagram" target="_blank" rel="noopener noreferrer">instagram</a>
-            <a href="https://www.youtube.com/@yourbestfriendsband" class="social-link youtube" target="_blank" rel="noopener noreferrer">youtube</a>
+          <div class="media-block" id="media-players" hidden>
+            <h3 class="media-label">play</h3>
+            <div class="media-players-list"></div>
           </div>
         </div>
       </section>
