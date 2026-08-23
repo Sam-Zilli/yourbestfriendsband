@@ -138,7 +138,15 @@ a:hover {
   margin: 0 auto;
 }
 
-.hero-shows {
+.hero-about .hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: min(640px, 94%);
+}
+
+.hero-shows,
+.hero-listen {
   align-items: flex-start;
   justify-content: center;
   padding: calc(96px + env(safe-area-inset-top)) 36px 56px;
@@ -154,7 +162,8 @@ a:hover {
   background-size: 46px 40px, 58px 52px, 38px 42px, 72px 64px, 50px 46px, 100% 100%;
 }
 
-.hero-shows::before {
+.hero-shows::before,
+.hero-listen::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -167,7 +176,7 @@ a:hover {
 }
 
 .hero-about {
-  background-image: url('assets/band-portrait.png');
+  background-image: url('assets/photos/band-portrait.png');
   background-position: center 70%;
   align-items: flex-start;
 }
@@ -312,7 +321,12 @@ a:hover {
 }
 
 .show-card-flyer .show-location {
-  margin-bottom: 14px;
+  margin-bottom: 8px;
+}
+
+.show-card-flyer .show-with {
+  text-align: left;
+  margin: 0 0 12px;
 }
 
 .show-card-flyer .show-meta {
@@ -395,6 +409,26 @@ a:hover {
   margin: 0 0 10px;
   text-align: center;
   max-width: none;
+}
+
+.show-with {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.82rem;
+  color: #6b3d24;
+  margin: -4px 0 12px;
+  text-align: center;
+  max-width: none;
+  line-height: 1.45;
+}
+
+.show-band-link {
+  color: #8b3a2a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.show-band-link:hover {
+  color: #b85c3a;
 }
 
 .show-meta {
@@ -601,10 +635,16 @@ a:hover {
 }
 
 .shows-carousel-track .show-card-flyer .show-location,
-.shows-carousel-track .show-card-flyer .show-meta {
+.shows-carousel-track .show-card-flyer .show-meta,
+.shows-carousel-track .show-card-flyer .show-with {
   font-size: clamp(0.8rem, 1.05vw, 0.95rem);
   text-align: center;
   margin-bottom: 0;
+}
+
+.shows-carousel-track .show-with {
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
 .shows-carousel-track .show-card-flyer .show-details {
@@ -813,6 +853,112 @@ a:hover {
   margin-top: 0;
 }
 
+.listen-board {
+  position: relative;
+  z-index: 1;
+  width: min(920px, 94%);
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 4px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.listen-board .board-title {
+  flex-shrink: 0;
+  margin-bottom: 16px;
+}
+
+.listen-block {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.listen-label {
+  display: inline-block;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: #3e1f0e;
+  background: #f4e6c4;
+  padding: 4px 12px;
+  margin: 8px 0 12px;
+  transform: rotate(-0.8deg);
+  box-shadow: 1px 2px 6px rgba(40, 18, 6, 0.22);
+}
+
+.listen-videos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.listen-players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.listen-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: rgba(235, 210, 180, 0.85);
+  border-radius: 8px;
+  border: 1px solid rgba(180, 130, 80, 0.4);
+  box-shadow: 0 4px 16px rgba(62, 31, 14, 0.15);
+  overflow: hidden;
+}
+
+.listen-players-list .listen-embed {
+  aspect-ratio: auto;
+  min-height: 152px;
+}
+
+.listen-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.listen-players-list .listen-embed iframe {
+  position: static;
+  height: 152px;
+}
+
+.listen-links {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.instagram-feed {
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  background: rgba(235, 210, 180, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid rgba(180, 130, 80, 0.4);
+  box-shadow: 0 4px 16px rgba(62, 31, 14, 0.15);
+}
+
+.instagram-feed[hidden] {
+  display: none;
+}
+
+.instagram-feed [data-behold-id] {
+  display: block;
+  width: 100%;
+}
+
 .social-links {
   display: flex;
   flex-wrap: wrap;
@@ -875,8 +1021,15 @@ footer p {
   pointer-events: none;
 }
 
+@media (min-width: 900px) {
+  .listen-videos-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (min-width: 1200px) {
-  .hero-shows {
+  .hero-shows,
+  .hero-listen {
     padding: calc(104px + env(safe-area-inset-top)) 48px 56px;
   }
 
@@ -948,7 +1101,7 @@ footer p {
 
   .nav-links {
     flex-shrink: 0;
-    gap: 8px 14px;
+    gap: 6px 10px;
   }
 
   .nav-links a {
@@ -958,6 +1111,7 @@ footer p {
 
   .hero-section,
   .hero-shows,
+  .hero-listen,
   .hero-about {
     flex-direction: column;
     align-items: center;
@@ -974,12 +1128,27 @@ footer p {
     justify-content: center;
   }
 
-  .hero-shows {
+  .hero-about .hero-content {
+    max-width: 100%;
+  }
+
+  .listen-board {
+    width: 100%;
+    padding: 0 2px 12px;
+  }
+
+  .instagram-feed {
+    padding: 8px;
+  }
+
+  .hero-shows,
+  .hero-listen {
     padding-left: 18px;
     padding-right: 18px;
   }
 
-  .hero-shows::before {
+  .hero-shows::before,
+  .hero-listen::before {
     border-width: 6px;
     box-shadow:
       inset 0 0 0 3px #3a1c0c,
@@ -1157,7 +1326,8 @@ footer p {
   }
 
   .show-card-flyer .show-location,
-  .show-card-flyer .show-meta {
+  .show-card-flyer .show-meta,
+  .show-card-flyer .show-with {
     font-size: 0.78rem;
     text-align: center;
   }
@@ -1207,11 +1377,15 @@ footer p {
 
 @media (max-width: 360px) {
   .nav-brand h1 {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
+  }
+
+  .nav-links {
+    gap: 4px 8px;
   }
 
   .nav-links a {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .show-flyer-link {
@@ -1222,6 +1396,7 @@ footer p {
 @media (max-height: 500px) and (orientation: landscape) {
   .hero-section,
   .hero-shows,
+  .hero-listen,
   .hero-about {
     height: 100svh;
     max-height: 100svh;

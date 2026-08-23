@@ -1,2 +1,3 @@
-# Your Best Friends - Official Website
-# Made by Sam
+# your best friends
+
+site by sam

@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   setupPagePager();
   loadShows();
+  loadInstagramFeed();
+  loadListenMedia();
 });
 
 function setupPagePager() {
@@ -19,7 +21,11 @@ function setupPagePager() {
   var touchStartX = 0;
   var touchStartY = 0;
 
-  function setActiveLink() {
+  pages.forEach(function (page, i) {
+    if (page.id && '#' + page.id === window.location.hash) index = i;
+  });
+
+  function setActiveLink(writeHash) {
     var id = pages[index] ? pages[index].id : 'shows';
     navLinks.forEach(function (link) {
       if (link.getAttribute('href') === '#' + id) {
@@ -28,6 +34,7 @@ function setupPagePager() {
         link.classList.remove('active');
       }
     });
+    if (writeHash) history.replaceState(null, '', '#' + id);
   }
 
   function goTo(nextIndex) {
@@ -36,7 +43,7 @@ function setupPagePager() {
     index = nextIndex;
     locked = true;
     stage.style.transform = 'translate3d(0, ' + (-index * window.innerHeight) + 'px, 0)';
-    setActiveLink();
+    setActiveLink(true);
     window.setTimeout(function () {
       locked = false;
     }, 580);
@@ -55,7 +62,12 @@ function setupPagePager() {
     });
   });
 
+  function isInNestedScroll(node) {
+    return !!(node && node.closest && node.closest('.listen-board, .instagram-feed'));
+  }
+
   window.addEventListener('wheel', function (event) {
+    if (isInNestedScroll(event.target)) return;
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
     event.preventDefault();
     if (locked || Math.abs(event.deltaY) < 10) return;
@@ -63,6 +75,15 @@ function setupPagePager() {
   }, { passive: false });
 
   window.addEventListener('keydown', function (event) {
+    var board = pages[index] && pages[index].id === 'listen'
+      ? document.querySelector('.listen-board')
+      : null;
+    if (board) {
+      var atTop = board.scrollTop <= 0;
+      var atBottom = board.scrollTop + board.clientHeight >= board.scrollHeight - 2;
+      if ((event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') && !atBottom) return;
+      if ((event.key === 'ArrowUp' || event.key === 'PageUp') && !atTop) return;
+    }
     if (event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') {
       event.preventDefault();
       goTo(index + 1);
@@ -79,13 +100,14 @@ function setupPagePager() {
   }, { passive: true });
 
   window.addEventListener('touchmove', function (event) {
+    if (isInNestedScroll(event.target)) return;
     var dx = event.touches[0].clientX - touchStartX;
     var dy = event.touches[0].clientY - touchStartY;
     if (Math.abs(dy) > Math.abs(dx)) event.preventDefault();
   }, { passive: false });
 
   window.addEventListener('touchend', function (event) {
-    if (locked) return;
+    if (locked || isInNestedScroll(event.target)) return;
     var dx = event.changedTouches[0].clientX - touchStartX;
     var dy = event.changedTouches[0].clientY - touchStartY;
     if (Math.abs(dx) >= Math.abs(dy) || Math.abs(dy) < 48) return;
@@ -100,7 +122,16 @@ function setupPagePager() {
     });
   });
 
-  setActiveLink();
+  if (index > 0) {
+    stage.style.transition = 'none';
+    stage.style.transform = 'translate3d(0, ' + (-index * window.innerHeight) + 'px, 0)';
+    setActiveLink(true);
+    requestAnimationFrame(function () {
+      stage.style.transition = '';
+    });
+  } else {
+    setActiveLink(false);
+  }
 }
 
 function escapeHtml(value) {
@@ -140,6 +171,38 @@ function isSafeUrl(url) {
   return url === '#' || /^https?:\/\//i.test(url);
 }
 
+function renderWithBands(bands) {
+  if (!Array.isArray(bands) || !bands.length) return '';
+
+  var items = bands.map(function (band) {
+    var name = '';
+    var url = '';
+    if (typeof band === 'string') {
+      name = band;
+    } else if (band && band.name) {
+      name = band.name;
+      url = band.url;
+    }
+    if (!name) return '';
+    if (url && isSafeUrl(url) && url !== '#') {
+      return '<a href="' + escapeHtml(url) + '" class="show-band-link" target="_blank" rel="noopener noreferrer">' +
+        escapeHtml(name) + '</a>';
+    }
+    return '<span class="show-band">' + escapeHtml(name) + '</span>';
+  }).filter(Boolean);
+
+  if (!items.length) return '';
+
+  var list = items[0];
+  if (items.length === 2) {
+    list = items[0] + ' & ' + items[1];
+  } else if (items.length > 2) {
+    list = items.slice(0, -1).join(', ') + ' & ' + items[items.length - 1];
+  }
+
+  return '<p class="show-with">with ' + list + '</p>';
+}
+
 function renderShowCard(show) {
   var article = document.createElement('article');
   article.className = 'show-card' + (show.flyer ? ' show-card-flyer' : '');
@@ -153,9 +216,9 @@ function renderShowCard(show) {
 
   if (show.flyer) {
     var img = '<img src="' + escapeHtml(show.flyer) + '" alt="' + escapeHtml(show.flyerAlt || '') + '">';
-    if (show.tickets && isSafeUrl(show.tickets) && show.tickets !== '#') {
+    if (show.ticketLink && isSafeUrl(show.ticketLink) && show.ticketLink !== '#') {
       article.insertAdjacentHTML('beforeend',
-        '<a class="show-flyer-link" href="' + escapeHtml(show.tickets) + '" target="_blank" rel="noopener noreferrer">' + img + '</a>'
+        '<a class="show-flyer-link" href="' + escapeHtml(show.ticketLink) + '" target="_blank" rel="noopener noreferrer">' + img + '</a>'
       );
     } else {
       article.insertAdjacentHTML('beforeend', '<div class="show-flyer-link">' + img + '</div>');
@@ -168,9 +231,9 @@ function renderShowCard(show) {
   var details = show.details
     ? '<span class="show-details">' + escapeHtml(show.details) + '</span>'
     : '';
-  var tickets = show.tickets && isSafeUrl(show.tickets)
-    ? '<a href="' + escapeHtml(show.tickets) + '" class="show-link"' +
-      (show.tickets !== '#' ? ' target="_blank" rel="noopener noreferrer"' : '') +
+  var ticketLink = show.ticketLink && isSafeUrl(show.ticketLink)
+    ? '<a href="' + escapeHtml(show.ticketLink) + '" class="show-link"' +
+      (show.ticketLink !== '#' ? ' target="_blank" rel="noopener noreferrer"' : '') +
       '>tickets</a>'
     : '';
 
@@ -179,17 +242,102 @@ function renderShowCard(show) {
       '<p class="show-when">' + escapeHtml(when) + '</p>' +
       '<h3 class="show-venue">' + escapeHtml(show.venue) + '</h3>' +
       (show.location ? '<p class="show-location">' + escapeHtml(show.location) + '</p>' : '') +
+      renderWithBands(show.with) +
       '<p class="show-meta">' +
         (show.time
           ? '<time datetime="' + escapeHtml(formatShowDatetime(show.date, show.time)) + '">' + escapeHtml(show.time) + '</time>'
           : '') +
         details +
       '</p>' +
-      tickets +
+      ticketLink +
     '</div>'
   );
 
   return article;
+}
+
+function loadInstagramFeed() {
+  var feedId = window.YBF_BEHOLD_FEED_ID;
+  var wrap = document.getElementById('instagram-feed');
+  var widget = wrap && wrap.querySelector('[data-behold-id]');
+  if (!feedId || !wrap || !widget) return;
+
+  widget.setAttribute('data-behold-id', feedId);
+  wrap.hidden = false;
+
+  if (window.__bhldScript) return;
+  window.__bhldScript = true;
+  var script = document.createElement('script');
+  script.type = 'module';
+  script.src = 'https://w.behold.so/widget.js';
+  document.head.appendChild(script);
+}
+
+function isYoutubeId(id) {
+  return typeof id === 'string' && /^[a-zA-Z0-9_-]{11}$/.test(id);
+}
+
+function isSafeEmbedUrl(url) {
+  if (!url || !/^https:\/\//i.test(url)) return false;
+  try {
+    var host = new URL(url).hostname.toLowerCase();
+    return (
+      host === 'www.youtube.com' ||
+      host === 'youtube.com' ||
+      host === 'www.youtube-nocookie.com' ||
+      host === 'youtube-nocookie.com' ||
+      host === 'open.spotify.com' ||
+      host === 'w.soundcloud.com' ||
+      host === 'bandcamp.com' ||
+      host.slice(-13) === '.bandcamp.com' ||
+      host === 'embed.music.apple.com'
+    );
+  } catch (e) {
+    return false;
+  }
+}
+
+function renderEmbedFrame(src, title) {
+  return (
+    '<div class="listen-embed">' +
+      '<iframe src="' + escapeHtml(src) + '" title="' + escapeHtml(title || '') + '" ' +
+        'loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>' +
+    '</div>'
+  );
+}
+
+function loadListenMedia() {
+  var videosWrap = document.getElementById('listen-videos');
+  var videosGrid = videosWrap && videosWrap.querySelector('.listen-videos-grid');
+  var videos = window.YBF_VIDEOS;
+  if (videosWrap && videosGrid && Array.isArray(videos)) {
+    videos.forEach(function (video) {
+      var src = '';
+      var title = (video && video.title) || 'video';
+      if (video && isYoutubeId(video.youtube)) {
+        src = 'https://www.youtube-nocookie.com/embed/' + video.youtube;
+      } else if (video && isSafeEmbedUrl(video.src)) {
+        src = video.src;
+      }
+      if (!src) return;
+      videosGrid.insertAdjacentHTML('beforeend', renderEmbedFrame(src, title));
+    });
+    if (videosGrid.children.length) videosWrap.hidden = false;
+  }
+
+  var playersWrap = document.getElementById('listen-players');
+  var playersList = playersWrap && playersWrap.querySelector('.listen-players-list');
+  var players = window.YBF_PLAYERS;
+  if (playersWrap && playersList && Array.isArray(players)) {
+    players.forEach(function (player) {
+      if (!player || !isSafeEmbedUrl(player.src)) return;
+      playersList.insertAdjacentHTML(
+        'beforeend',
+        renderEmbedFrame(player.src, player.title || '')
+      );
+    });
+    if (playersList.children.length) playersWrap.hidden = false;
+  }
 }
 
 function showEmptyState() {
