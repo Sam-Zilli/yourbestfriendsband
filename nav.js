@@ -322,17 +322,20 @@ function setupVideosCarousel() {
   }
 
   function measure() {
-    var width = viewport.clientWidth;
+    var width = viewport.clientWidth || root.clientWidth;
+    var maxH = Math.min(window.innerHeight * 0.28, 240);
+    var fromHeight = maxH * 16 / 9;
     if (slides.length === 1) {
       visible = 1;
-      cardW = Math.min(560, width);
+      cardW = Math.min(420, width, fromHeight);
     } else if (width >= 680) {
       visible = 2;
-      cardW = (width - gap) / 2;
+      cardW = Math.min((width - gap) / 2, fromHeight);
     } else {
       visible = 1;
-      cardW = width;
+      cardW = Math.min(width, fromHeight);
     }
+    if (cardW < 160) cardW = Math.min(width, 160);
     slides.forEach(function (slide) {
       slide.style.width = cardW + 'px';
       slide.style.flexBasis = cardW + 'px';

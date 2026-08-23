@@ -960,16 +960,21 @@ a:hover {
   z-index: 1;
   width: min(920px, 94%);
   height: 100%;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 4px 16px;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 0 4px 8px;
 }
 
 .media-block {
-  width: 100%;
-  margin-top: 8px;
+  width: min(480px, 100%);
+  margin-top: 0;
+  flex: 0 1 auto;
+  min-height: 0;
 }
 
 .media-label {
@@ -989,7 +994,8 @@ a:hover {
 
 .media-videos-carousel {
   position: relative;
-  width: 100%;
+  width: min(420px, 100%, calc(min(28vh, 240px) * 16 / 9));
+  margin: 0 auto;
 }
 
 .media-videos-viewport {
@@ -1057,6 +1063,7 @@ a:hover {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
+  height: auto;
   background: rgba(235, 210, 180, 0.85);
   border-radius: 8px;
   border: 1px solid rgba(180, 130, 80, 0.4);
@@ -1090,7 +1097,7 @@ a:hover {
 }
 
 .media-block .media-links {
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
 .media-link {
@@ -1113,12 +1120,18 @@ a:hover {
   transform: rotate(0deg);
 }
 
+@media (max-width: 520px) {
+  .media-handle {
+    display: none;
+  }
+}
+
 .instagram-feed {
   width: 100%;
+  flex: 0 0 auto;
   margin: 0 auto;
-  padding: 10px;
-  overflow: hidden;
-  scrollbar-width: none;
+  padding: 8px;
+  overflow: visible;
   background: rgba(235, 210, 180, 0.85);
   backdrop-filter: blur(10px);
   border-radius: 8px;
@@ -1199,6 +1212,62 @@ footer p {
   text-align: right;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   pointer-events: none;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .nav-container {
+    padding: 0 16px;
+  }
+
+  .nav-brand h1 {
+    font-size: clamp(1.5rem, 3.4vw, 2rem);
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+
+  .nav-tape {
+    font-size: 1rem;
+    padding: 5px 18px 4px;
+  }
+
+  .hero-shows,
+  .hero-media {
+    padding: calc(92px + env(safe-area-inset-top)) 28px 52px;
+  }
+
+  .hero-media {
+    padding-top: calc(112px + env(safe-area-inset-top));
+  }
+
+  .hero-shows::before,
+  .hero-media::before {
+    border-width: 12px;
+  }
+
+  .media-board {
+    width: min(780px, 94%);
+  }
+
+  .media-videos-carousel {
+    width: min(380px, 100%, calc(min(26vh, 220px) * 16 / 9));
+  }
+
+  .hero-about .hero-content {
+    max-width: min(560px, 90%);
+  }
+
+  .shows-carousel-track .show-card,
+  .shows-carousel-track .show-card-flyer,
+  .shows-carousel-track .show-card.is-past {
+    flex-basis: min(560px, 62%);
+    width: min(560px, 62%);
+  }
+
+  .shows-carousel-track .show-flyer-link img {
+    max-height: min(36vh, 360px);
+  }
 }
 
 @media (min-width: 1200px) {
@@ -1326,7 +1395,16 @@ footer p {
 
   .media-board {
     width: 100%;
-    padding: 0 2px 12px;
+    padding: 0 2px 8px;
+    gap: 6px;
+  }
+
+  .media-block {
+    width: min(360px, 100%);
+  }
+
+  .media-videos-carousel {
+    width: min(360px, 100%, calc(min(24vh, 200px) * 16 / 9));
   }
 
   .media-videos-btn {
@@ -1338,7 +1416,12 @@ footer p {
   .media-videos-btn[data-videos-next] { right: 0; }
 
   .instagram-feed {
-    padding: 8px;
+    padding: 6px;
+  }
+
+  .media-link {
+    font-size: 0.72rem;
+    padding: 5px 10px 4px;
   }
 
   .hero-shows,
@@ -1348,7 +1431,7 @@ footer p {
   }
 
   .hero-media {
-    padding-top: calc(102px + env(safe-area-inset-top));
+    padding-top: calc(88px + env(safe-area-inset-top));
   }
 
   .hero-shows::before,
@@ -1609,6 +1692,16 @@ footer p {
   }
 }
 
+@media (max-height: 820px) {
+  .hero-media {
+    padding-top: calc(96px + env(safe-area-inset-top));
+  }
+
+  .media-videos-carousel {
+    width: min(340px, 100%, calc(min(22vh, 180px) * 16 / 9));
+  }
+}
+
 @media (max-height: 500px) and (orientation: landscape) {
   .hero-section,
   .hero-shows,
@@ -1617,6 +1710,14 @@ footer p {
     height: 100svh;
     max-height: 100svh;
     padding: calc(70px + env(safe-area-inset-top)) 16px calc(52px + env(safe-area-inset-bottom));
+  }
+
+  .hero-media {
+    padding-top: calc(70px + env(safe-area-inset-top));
+  }
+
+  .media-videos-carousel {
+    width: min(280px, 70vw, calc(min(38vh, 160px) * 16 / 9));
   }
 
   .show-flyer-link img,
