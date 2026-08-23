@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preload" as="image" href="assets/band-portrait.png">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Courier+Prime&display=swap" rel="stylesheet">
+    <script defer src="shows.js"></script>
     <script defer src="nav.js"></script>
   </head>
   <body>
@@ -31,28 +32,18 @@
     </nav>
 
     <main>
-      <section id="shows" class="hero-section hero-shows" aria-label="upcoming shows">
+      <section id="shows" class="hero-section hero-shows" aria-label="shows">
         <div class="bulletin-board">
           <h2 class="board-title">shows</h2>
-          <p class="shows-empty" hidden>no upcoming shows — check back soon.</p>
-          <div class="shows-list">
-            <article class="show-card show-card-flyer" data-date="2026-08-22">
-              <span class="show-pin" aria-hidden="true"></span>
-              <a class="show-flyer-link" href="https://www.eventbrite.com/e/in-lieu-of-flowers-homefried-valentines-your-best-friends-tickets-1992709918007" target="_blank" rel="noopener noreferrer">
-                <img src="assets/show-flyers/the-jungle-aug-22.jpg" alt="your best friends live at the jungle, somerville ma, saturday august 22 at 4 pm">
-              </a>
-              <div class="show-info">
-                <p class="show-when">saturday, august 22</p>
-                <h3 class="show-venue">the jungle</h3>
-                <p class="show-location">somerville, ma</p>
-                <p class="show-meta">
-                  <time datetime="2026-08-22T16:00">4:00 pm</time>
-                  <span class="show-details">21+ · doors at 3:30 pm · with homefried valentines &amp; in lieu of flowers</span>
-                </p>
-                <a href="https://www.eventbrite.com/e/in-lieu-of-flowers-homefried-valentines-your-best-friends-tickets-1992709918007" class="show-link" target="_blank" rel="noopener noreferrer">tickets</a>
-              </div>
-            </article>
+          <p class="shows-empty" hidden>no shows yet — check back soon.</p>
+          <div class="shows-carousel">
+            <button type="button" class="shows-carousel-btn" data-carousel-prev aria-label="earlier show">&lsaquo;</button>
+            <div class="shows-carousel-viewport">
+              <div class="shows-carousel-track"></div>
+            </div>
+            <button type="button" class="shows-carousel-btn" data-carousel-next aria-label="later show">&rsaquo;</button>
           </div>
+          <div class="shows-carousel-dots" aria-label="shows timeline"></div>
         </div>
       </section>
 
