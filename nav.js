@@ -247,21 +247,141 @@ function renderShowCard(show) {
   return article;
 }
 
-function loadInstagramFeed() {
-  var feedId = window.YBF_BEHOLD_FEED_ID;
-  var wrap = document.getElementById('instagram-feed');
-  var widget = wrap && wrap.querySelector('[data-behold-id]');
-  if (!feedId || !wrap || !widget) return;
+function isSafeBeholdImage(url) {
+  if (!url || !/^https:\/\//i.test(url)) return false;
+  try {
+    var host = new URL(url).hostname.toLowerCase();
+    return host === 'behold.pictures' || host.slice(-16) === '.behold.pictures';
+  } catch (e) {
+    return false;
+  }
+}
 
+function postImageUrl(post) {
+  var sizes = post && post.sizes;
+  var url = (sizes && sizes.medium && sizes.medium.mediaUrl)
+    || (sizes && sizes.small && sizes.small.mediaUrl)
+    || '';
+  return isSafeBeholdImage(url) ? url : '';
+}
+
+function loadBeholdWidget(feedId, widget) {
   widget.setAttribute('data-behold-id', feedId);
-  wrap.hidden = false;
-
   if (window.__bhldScript) return;
   window.__bhldScript = true;
   var script = document.createElement('script');
   script.type = 'module';
   script.src = 'https://w.behold.so/widget.js';
   document.head.appendChild(script);
+}
+
+function setupInstagramCarousel(track) {
+  var root = track.closest('.instagram-carousel');
+  var viewport = root && root.querySelector('.instagram-carousel-viewport');
+  var prev = root && root.querySelector('[data-ig-prev]');
+  var next = root && root.querySelector('[data-ig-next]');
+  var slides = Array.prototype.slice.call(track.children);
+  if (!root || !viewport || !slides.length) return;
+
+  var index = 0;
+  var dragStartX = 0;
+  var dragStartOffset = 0;
+  var dragging = false;
+  var dragDelta = 0;
+
+  function goTo(i, animate) {
+    index = Math.max(0, Math.min(slides.length - 1, i));
+    track.style.transition = animate === false ? 'none' : '';
+    track.style.transform = 'translate3d(' + (-index * viewport.clientWidth) + 'px, 0, 0)';
+    if (prev) prev.disabled = index === 0;
+    if (next) next.disabled = index === slides.length - 1;
+  }
+
+  if (prev) prev.addEventListener('click', function () { goTo(index - 1); });
+  if (next) next.addEventListener('click', function () { goTo(index + 1); });
+
+  viewport.addEventListener('pointerdown', function (event) {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    if (slides.length < 2) return;
+    dragging = true;
+    dragDelta = 0;
+    dragStartX = event.clientX;
+    dragStartOffset = -index * viewport.clientWidth;
+    track.classList.add('is-dragging');
+    try { viewport.setPointerCapture(event.pointerId); } catch (e) {}
+  });
+
+  viewport.addEventListener('pointermove', function (event) {
+    if (!dragging) return;
+    dragDelta = event.clientX - dragStartX;
+    track.style.transition = 'none';
+    track.style.transform = 'translate3d(' + (dragStartOffset + dragDelta) + 'px, 0, 0)';
+  });
+
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    track.classList.remove('is-dragging');
+    if (dragDelta < -40) goTo(index + 1);
+    else if (dragDelta > 40) goTo(index - 1);
+    else goTo(index);
+  }
+
+  viewport.addEventListener('pointerup', endDrag);
+  viewport.addEventListener('pointercancel', endDrag);
+  window.addEventListener('resize', function () { goTo(index, false); });
+  goTo(0, false);
+}
+
+function loadInstagramCarousel(feedId, wrap) {
+  var carousel = wrap.querySelector('.instagram-carousel');
+  var track = carousel && carousel.querySelector('.instagram-carousel-track');
+  if (!carousel || !track || track.children.length) return;
+
+  fetch('https://feeds.behold.so/' + encodeURIComponent(feedId))
+    .then(function (res) { return res.ok ? res.json() : Promise.reject(); })
+    .then(function (data) {
+      var posts = (data && data.posts) || [];
+      posts.slice(0, 6).forEach(function (post) {
+        var src = postImageUrl(post);
+        var href = post.permalink && isSafeUrl(post.permalink) ? post.permalink : '';
+        if (!src || !href || href === '#') return;
+        var alt = post.altText || post.prunedCaption || 'instagram post';
+        track.insertAdjacentHTML(
+          'beforeend',
+          '<a class="instagram-slide" href="' + escapeHtml(href) + '" target="_blank" rel="noopener noreferrer">' +
+            '<img src="' + escapeHtml(src) + '" alt="' + escapeHtml(alt) + '">' +
+          '</a>'
+        );
+      });
+      if (!track.children.length) return;
+      carousel.hidden = false;
+      wrap.hidden = false;
+      setupInstagramCarousel(track);
+    })
+    .catch(function () {});
+}
+
+function loadInstagramFeed() {
+  var feedId = window.YBF_BEHOLD_FEED_ID;
+  var wrap = document.getElementById('instagram-feed');
+  var widget = wrap && wrap.querySelector('[data-behold-id]');
+  if (!feedId || !wrap || !widget) return;
+
+  var mobile = window.matchMedia('(max-width: 768px)');
+
+  function apply() {
+    if (mobile.matches) {
+      loadInstagramCarousel(feedId, wrap);
+    } else {
+      wrap.hidden = false;
+      loadBeholdWidget(feedId, widget);
+    }
+  }
+
+  apply();
+  if (mobile.addEventListener) mobile.addEventListener('change', apply);
+  else if (mobile.addListener) mobile.addListener(apply);
 }
 
 function isYoutubeId(id) {
