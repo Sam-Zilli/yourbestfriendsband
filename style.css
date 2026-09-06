@@ -1453,8 +1453,17 @@ footer p {
     width: min(360px, 100%);
   }
 
+  .instagram-slide {
+    max-height: min(22svh, 180px);
+  }
+
   .media-videos-carousel {
-    width: min(360px, 100%, calc(min(24vh, 200px) * 16 / 9));
+    width: min(360px, 100%);
+    flex-shrink: 0;
+  }
+
+  .media-videos-track .media-embed {
+    max-width: 100%;
   }
 
   .media-videos-btn {
@@ -1758,8 +1767,12 @@ footer p {
     padding-top: calc(96px + env(safe-area-inset-top));
   }
 
+  .instagram-slide {
+    max-height: min(20svh, 160px);
+  }
+
   .media-videos-carousel {
-    width: min(340px, 100%, calc(min(22vh, 180px) * 16 / 9));
+    width: min(340px, 100%);
   }
 }
 
@@ -1778,7 +1791,7 @@ footer p {
   }
 
   .media-videos-carousel {
-    width: min(280px, 70vw, calc(min(38vh, 160px) * 16 / 9));
+    width: min(280px, 70vw);
   }
 
   .show-flyer-link img,

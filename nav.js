@@ -441,9 +441,19 @@ function setupVideosCarousel() {
     return Math.max(0, slides.length - visible);
   }
 
+  function availableHeight() {
+    var viewH = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+    var cap = Math.min(viewH * 0.32, 240);
+    var board = document.querySelector('.media-board');
+    if (!board) return cap;
+    var leftover = board.getBoundingClientRect().bottom - root.getBoundingClientRect().top - 12;
+    if (leftover < 80) return Math.max(80, leftover);
+    return Math.min(cap, leftover);
+  }
+
   function measure() {
     var width = viewport.clientWidth || root.clientWidth;
-    var maxH = Math.min(window.innerHeight * 0.28, 240);
+    var maxH = availableHeight();
     var fromHeight = maxH * 16 / 9;
     if (slides.length === 1) {
       visible = 1;
@@ -456,9 +466,11 @@ function setupVideosCarousel() {
       cardW = Math.min(width, fromHeight);
     }
     if (cardW < 160) cardW = Math.min(width, 160);
+    var cardH = cardW * 9 / 16;
     slides.forEach(function (slide) {
       slide.style.width = cardW + 'px';
       slide.style.flexBasis = cardW + 'px';
+      slide.style.height = cardH + 'px';
     });
     root.classList.toggle('is-single', slides.length === 1);
     if (prev) prev.hidden = maxIndex() === 0;
@@ -513,7 +525,20 @@ function setupVideosCarousel() {
     if (event.key === 'ArrowRight') goTo(index + 1);
   });
 
-  window.addEventListener('resize', measure);
+  var measureTimer = 0;
+  function measureSoon() {
+    clearTimeout(measureTimer);
+    measureTimer = setTimeout(measure, 50);
+  }
+
+  window.addEventListener('resize', measureSoon);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', measureSoon);
+  }
+  if (window.ResizeObserver) {
+    var board = document.querySelector('.media-board');
+    if (board) new ResizeObserver(measureSoon).observe(board);
+  }
   measure();
 }
 
