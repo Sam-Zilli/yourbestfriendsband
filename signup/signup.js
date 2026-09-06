@@ -54,7 +54,7 @@
         .then(function (data) {
           if (data && data.result === 'success') {
             form.reset();
-            showStatus('you’re on the list. see you out there.', 'success');
+            showStatus('you’re on the list', 'success');
             return;
           }
           showStatus('something snagged — try again in a minute.', 'error');
