@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="signup — your best friends">
+
+    <title>signup — your best friends</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Courier+Prime&display=swap" rel="stylesheet">
+    <script defer src="signup.js"></script>
+  </head>
+  <body class="page-signup">
+
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <h1><a href="/">your best friends</a></h1>
+        </div>
+        <p class="nav-tape" id="nav-tape" data-page="signup">signup</p>
+        <ul class="nav-links">
+          <li><a href="/#shows">shows</a></li>
+          <li><a href="/#about">about</a></li>
+          <li><a href="/#media">media</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero-section hero-shows hero-signup" aria-label="signup">
+        <div class="signup-card">
+          <h2 class="signup-title">get on the list</h2>
+          <p class="signup-lede">leave your name and we’ll write when there’s something worth writing about.</p>
+
+          <form id="signup-form" class="signup-form" novalidate>
+            <label class="signup-field">
+              <span>name</span>
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label class="signup-field">
+              <span>email</span>
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label class="signup-field">
+              <span>phone <em>optional</em></span>
+              <input type="tel" name="phone" autocomplete="tel">
+            </label>
+            <label class="signup-field">
+              <span>city <em>optional</em></span>
+              <input type="text" name="city" autocomplete="address-level2">
+            </label>
+            <label class="signup-honeypot" aria-hidden="true">
+              <span>website</span>
+              <input type="text" name="website" tabindex="-1" autocomplete="off">
+            </label>
+            <button type="submit" class="signup-submit">sign up</button>
+            <p class="signup-status" id="signup-status" role="status" hidden></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; <span id="current-year">2026</span> your best friends · website by sam</p>
+      </div>
+    </footer>
+  </body>
+</html>
