@@ -1,5 +1,5 @@
 (function () {
-  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwBBy_Smd5lPtIxd5DyOj8NdA0pgbCB15_IDOaKE9jawfQhfU49wQG6t_N9h5-g1tum/exec';
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkzCqii3MobJDNw8Cw0JWHjqTxRaDjWPYmP4vGBhDkn3ctaWMB2Kt93mw-F7LMHs8r/exec';
 
   document.addEventListener('DOMContentLoaded', function () {
     var yearEl = document.getElementById('current-year');
@@ -33,10 +33,16 @@
       submit.disabled = true;
       showStatus('sending…', 'pending');
 
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: new FormData(form)
-      })
+      fetch(SCRIPT_URL)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (meta) {
+          if (!meta || !meta.token) throw new Error('token');
+          var body = new FormData(form);
+          body.append('token', meta.token);
+          return fetch(SCRIPT_URL, { method: 'POST', body: body });
+        })
         .then(function (response) {
           return response.json().catch(function () {
             return { result: response.ok ? 'success' : 'error' };

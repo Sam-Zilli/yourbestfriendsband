@@ -36,19 +36,19 @@
           <form id="signup-form" class="signup-form" novalidate>
             <label class="signup-field">
               <span>name</span>
-              <input type="text" name="name" autocomplete="name" required>
+              <input type="text" name="name" autocomplete="name" maxlength="80" required>
             </label>
             <label class="signup-field">
               <span>email</span>
-              <input type="email" name="email" autocomplete="email" required>
+              <input type="email" name="email" autocomplete="email" maxlength="254" required>
             </label>
             <label class="signup-field">
               <span>phone <em>optional</em></span>
-              <input type="tel" name="phone" autocomplete="tel">
+              <input type="tel" name="phone" autocomplete="tel" maxlength="40">
             </label>
             <label class="signup-field">
               <span>city <em>optional</em></span>
-              <input type="text" name="city" autocomplete="address-level2">
+              <input type="text" name="city" autocomplete="address-level2" maxlength="80">
             </label>
             <label class="signup-honeypot" aria-hidden="true">
               <span>website</span>
