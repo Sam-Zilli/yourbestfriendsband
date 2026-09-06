@@ -1827,7 +1827,7 @@ body.page-signup footer {
 .signup-card {
   position: relative;
   z-index: 1;
-  width: min(460px, 100%);
+  width: min(520px, 100%);
   padding: 36px 32px 32px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 30%),
@@ -1862,6 +1862,12 @@ body.page-signup footer {
   gap: 16px;
 }
 
+.signup-name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
 .signup-field {
   display: flex;
   flex-direction: column;
@@ -1879,7 +1885,8 @@ body.page-signup footer {
   color: #8a5a32;
 }
 
-.signup-field input {
+.signup-field input,
+.signup-field textarea {
   width: 100%;
   min-height: 46px;
   padding: 10px 12px;
@@ -1893,7 +1900,13 @@ body.page-signup footer {
   text-transform: none;
 }
 
-.signup-field input:focus {
+.signup-field textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.signup-field input:focus,
+.signup-field textarea:focus {
   outline: 2px solid #d4a860;
   outline-offset: 1px;
 }
@@ -1967,6 +1980,10 @@ body.page-signup footer {
 
   .signup-title {
     font-size: 1.7rem;
+  }
+
+  .signup-name-row {
+    grid-template-columns: 1fr;
   }
 }
 

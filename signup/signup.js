@@ -19,10 +19,13 @@
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      var name = String(form.name.value || '').trim();
+      var firstName = String(form.firstName.value || '').trim();
+      var lastName = String(form.lastName.value || '').trim();
       var email = String(form.email.value || '').trim();
-      if (!name || !email) {
-        showStatus('name and email, if you would.', 'error');
+      var interest = String(form.interest.value || '').trim();
+      var heardAbout = String(form.heardAbout.value || '').trim();
+      if (!firstName || !lastName || !email || !interest || !heardAbout) {
+        showStatus('all the fields, if you would.', 'error');
         return;
       }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

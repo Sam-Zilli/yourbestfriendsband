@@ -31,24 +31,30 @@
       <section class="hero-section hero-shows hero-signup" aria-label="signup">
         <div class="signup-card">
           <h2 class="signup-title">get on the list</h2>
-          <p class="signup-lede">leave your name and we’ll write when there’s something worth writing about.</p>
+          <p class="signup-lede">tell us a little about you and we’ll write when there’s something worth writing about.</p>
 
           <form id="signup-form" class="signup-form" novalidate>
+            <div class="signup-name-row">
+              <label class="signup-field">
+                <span>first name</span>
+                <input type="text" name="firstName" autocomplete="given-name" maxlength="80" required>
+              </label>
+              <label class="signup-field">
+                <span>last name</span>
+                <input type="text" name="lastName" autocomplete="family-name" maxlength="80" required>
+              </label>
+            </div>
             <label class="signup-field">
-              <span>name</span>
-              <input type="text" name="name" autocomplete="name" maxlength="80" required>
-            </label>
-            <label class="signup-field">
-              <span>email</span>
+              <span>email address</span>
               <input type="email" name="email" autocomplete="email" maxlength="254" required>
             </label>
             <label class="signup-field">
-              <span>phone <em>optional</em></span>
-              <input type="tel" name="phone" autocomplete="tel" maxlength="40">
+              <span>why are you interested in us</span>
+              <textarea name="interest" rows="3" maxlength="500" required></textarea>
             </label>
             <label class="signup-field">
-              <span>city <em>optional</em></span>
-              <input type="text" name="city" autocomplete="address-level2" maxlength="80">
+              <span>how did you hear about us</span>
+              <textarea name="heardAbout" rows="3" maxlength="500" required></textarea>
             </label>
             <label class="signup-honeypot" aria-hidden="true">
               <span>website</span>
