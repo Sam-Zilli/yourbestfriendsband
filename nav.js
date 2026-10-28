@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   setupPagePager();
   loadShows();
-  loadInstagramFeed();
+  // TEMP: behold instagram embed disabled
+  // loadInstagramFeed();
   loadListenMedia();
 });
 
