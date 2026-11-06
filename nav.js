@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
   loadShows();
   // TEMP: behold instagram embed disabled
   // loadInstagramFeed();
-  loadListenMedia();
+  // TEMP: media page disabled
+  // loadListenMedia();
 });
 
 function setupPagePager() {
